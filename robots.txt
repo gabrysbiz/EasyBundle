@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /LATEST/
+Sitemap: http://easy-bundle.projects.gabrys.biz/sitemap.xml
