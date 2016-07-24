@@ -17,8 +17,9 @@ package biz.gabrys.easybundle;
  * @since 1.0
  * @see BundleValidator
  */
-@SuppressWarnings("serial")
 public class InvalidInterfaceException extends BundleException {
+
+    private static final long serialVersionUID = -6370489579244438767L;
 
     /**
      * Constructs a new instance of {@link InvalidInterfaceException} with the specified detail message.

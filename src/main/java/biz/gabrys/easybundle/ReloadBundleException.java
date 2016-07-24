@@ -17,8 +17,9 @@ package biz.gabrys.easybundle;
  * @since 1.0
  * @see BundleManager
  */
-@SuppressWarnings("serial")
 public class ReloadBundleException extends BundleException {
+
+    private static final long serialVersionUID = 4521755560396085395L;
 
     /**
      * Constructs a new instance of {@link ReloadBundleException} with the specified detail message.

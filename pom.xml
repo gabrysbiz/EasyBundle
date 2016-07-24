@@ -5,10 +5,10 @@
 
     <groupId>biz.gabrys</groupId>
     <artifactId>easy-bundle</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>EasyBundle</name>
     <description>A simple library which supports internationalization. The library is dedicated for desktop applications.</description>
-    <url>http://easy-bundle.projects.gabrys.biz/1.0/</url>
+    <url>http://easy-bundle.projects.gabrys.biz/1.1/</url>
 
     <inceptionYear>2013</inceptionYear>
     <organization>
@@ -105,7 +105,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.7</version>
+                    <version>1.8</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
@@ -117,7 +117,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
-                    <version>2.7</version>
+                    <version>2.8.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-gpg-plugin</artifactId>
@@ -201,6 +201,12 @@
                     <target>1.6</target>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <createChecksum>true</createChecksum>
                 </configuration>
             </plugin>
             <plugin>
