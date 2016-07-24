@@ -2,7 +2,7 @@ package biz.gabrys.easybundle;
 
 import java.util.Locale;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public abstract class AbstractBundleFactoryTest {
