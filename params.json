@@ -1,0 +1,6 @@
+{
+  "name": "Easybundle",
+  "tagline": "A simple Java library which supports internationalization. The library is dedicated for desktop applications.",
+  "body": "# About\r\nEasyBundle is a simple Java library which supports internationalization. The library is dedicated for desktop applications.\r\n\r\nThe library consists of the basic elements:\r\n* Bundles - objects that store texts\r\n* Factories - responsible for creating bundles\r\n* Managers - responsible for the management of bundles\r\n* Bundles change listener - interface for objects that use bundles\r\n\r\nAll interaction between objects are described in the [JavaDocs](http://easy-bundle.projects.gabrys.biz/LATEST/apidocs). Start reading from [BundleManager](http://easy-bundle.projects.gabrys.biz/LATEST/apidocs/index.html?biz/gabrys/easybundle/BundleManager.html).\r\n\r\n# Examples\r\nGet example projects source code from [GitHub](https://github.com/gabrysbiz/EasyBundle-examples)\r\nor download binaries from [gabrys.biz](http://easy-bundle.projects.gabrys.biz/examples/).",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
