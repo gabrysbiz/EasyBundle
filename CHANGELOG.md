@@ -1,5 +1,9 @@
 # EasyBundle Changelog
 
+## 1.3.0
+Features:
+* Added [Coveralls](https://coveralls.io/github/gabrysbiz/EasyBundle) to build process
+
 ## 1.2
 Bugs:
 * Corrected [double-checked locking](https://en.wikipedia.org/wiki/Double-checked_locking)
