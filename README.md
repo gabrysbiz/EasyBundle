@@ -1,6 +1,6 @@
 # About
 [![License BSD 3-Clause](https://img.shields.io/badge/license-BSD%203--Clause-blue.svg)](http://easy-bundle.projects.gabrys.biz/license.txt)
-[![Build Status](https://travis-ci.org/gabrysbiz/EasyBundle.svg?branch=develop)](https://travis-ci.org/gabrysbiz/EasyBundle)
+[![Build Status](https://travis-ci.org/gabrysbiz/EasyBundle.svg?branch=release%2F1.0)](https://travis-ci.org/gabrysbiz/EasyBundle)
 
 EasyBundle is a simple Java library which supports internationalization. The library is dedicated for desktop applications.
 
