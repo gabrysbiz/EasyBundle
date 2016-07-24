@@ -21,7 +21,7 @@ package biz.gabrys.easybundle;
  */
 public final class MultiplePropertyResourceBundleManagerStorage {
 
-    private static BundleManager instance;
+    private static final BundleManager INSTANCE = new BundleManagerImpl(new MultiplePropertyResourceBundleFactory());
 
     private MultiplePropertyResourceBundleManagerStorage() {
         // blocks the possibility of create a new instance
@@ -33,13 +33,6 @@ public final class MultiplePropertyResourceBundleManagerStorage {
      * @since 1.0
      */
     public static BundleManager getManager() {
-        if (instance == null) {
-            synchronized (MultiplePropertyResourceBundleManagerStorage.class) {
-                if (instance == null) {
-                    instance = new BundleManagerImpl(new MultiplePropertyResourceBundleFactory());
-                }
-            }
-        }
-        return instance;
+        return INSTANCE;
     }
 }

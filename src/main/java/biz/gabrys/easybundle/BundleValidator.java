@@ -61,19 +61,27 @@ public final class BundleValidator {
             throw new IllegalArgumentException("Interface class cannot be null");
         }
 
+        validateType(interfaceClass);
+        validateMethods(interfaceClass.getName(), interfaceClass.getMethods());
+    }
+
+    private static void validateType(final Class<?> interfaceClass) {
         if (!interfaceClass.isInterface()) {
-            throw new InvalidInterfaceException("Given class \"" + interfaceClass.getName() + "\" is not an interface.");
+            throw new InvalidInterfaceException(String.format("Given class \"%s\" is not an interface", interfaceClass.getName()));
         }
         if (!Modifier.isPublic(interfaceClass.getModifiers())) {
-            throw new InvalidInterfaceException("Given interface \"" + interfaceClass.getName() + "\" must be public.");
+            throw new InvalidInterfaceException(String.format("Given interface \"%s\" must be public", interfaceClass.getName()));
         }
-        if (interfaceClass.getMethods().length == 0) {
-            throw new InvalidInterfaceException("Given interface \"" + interfaceClass.getName() + "\" has not specify any methods.");
+    }
+
+    private static void validateMethods(final String interfaceName, final Method[] methods) {
+        if (methods.length == 0) {
+            throw new InvalidInterfaceException(String.format("Given interface \"%s\" has not specify any methods", interfaceName));
         }
-        for (final Method method : interfaceClass.getMethods()) {
+        for (final Method method : methods) {
             if (!isMethodCorrect(method)) {
-                throw new InvalidInterfaceException("Given interface \"" + interfaceClass.getName()
-                        + "\" must contain only public getters method that return simple string value.");
+                throw new InvalidInterfaceException(String.format(
+                        "Given interface \"%s\" must contain only public getters method that return simple string value", interfaceName));
             }
         }
     }

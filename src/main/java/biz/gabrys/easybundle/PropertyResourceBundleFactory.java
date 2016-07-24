@@ -201,26 +201,31 @@ public class PropertyResourceBundleFactory implements BundleFactory {
 
     private final class PropertyResourceInvocationHandler implements InvocationHandler {
 
+        private final Object mutex = new Object();
+
         private final Class<?> interfaceClass;
         private Locale locale;
 
-        public PropertyResourceInvocationHandler(final Class<?> interfaceClass, final Locale locale) {
+        private PropertyResourceInvocationHandler(final Class<?> interfaceClass, final Locale locale) {
             this.interfaceClass = interfaceClass;
             this.locale = locale;
         }
 
         @Override
-        public synchronized Object invoke(final Object proxy, final Method method, final Object[] args) {
-            if (BundleValidator.isMethodCorrect(method)) {
-                return getValue(method.getName());
+        public Object invoke(final Object proxy, final Method method, final Object[] args) {
+            synchronized (mutex) {
+                if (BundleValidator.isMethodCorrect(method)) {
+                    return getValue(method.getName());
 
-            } else if (Bundle.CHANGE_LANGUAGE_METHOD_NAME.equals(method.getName())) {
-                locale = (Locale) args[0];
-                return null;
+                } else if (Bundle.CHANGE_LANGUAGE_METHOD_NAME.equals(method.getName())) {
+                    locale = (Locale) args[0];
+                    return null;
+                }
             }
 
-            throw new InvalidInterfaceException("Definition of the bundle interface \"" + interfaceClass.getName()
-                    + "\" is invalid (unsupported method: \"" + method.getName() + "\")");
+            throw new InvalidInterfaceException(
+                    String.format("Definition of the bundle interface \"%s\" is invalid (unsupported method: \"%s\")",
+                            interfaceClass.getName(), method.getName()));
         }
 
         private String getValue(final String methodName) {
@@ -233,7 +238,7 @@ public class PropertyResourceBundleFactory implements BundleFactory {
                 return bundle.getString(key);
             } else {
                 throw new UndefinedTranslationException(
-                        "Cannot find the message associated with the key \"" + key + "\" for locale \"" + locale + '"');
+                        String.format("Cannot find the message associated with the key \"%s\" for locale \"%s\"", key, locale));
             }
         }
 

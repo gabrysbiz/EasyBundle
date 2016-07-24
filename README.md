@@ -10,7 +10,7 @@ The library consists of the basic elements:
 * Managers - responsible for the management of bundles
 * Bundles change listener - interface for objects that use bundles
 
-All interaction between objects are described in the [JavaDocs](http://easy-bundle.projects.gabrys.biz/1.1/apidocs/). Start reading from [BundleManager](http://easy-bundle.projects.gabrys.biz/1.1/apidocs/index.html?biz/gabrys/easybundle/BundleManager.html).
+All interaction between objects are described in the [JavaDocs](http://easy-bundle.projects.gabrys.biz/1.2/apidocs/). Start reading from [BundleManager](http://easy-bundle.projects.gabrys.biz/1.2/apidocs/index.html?biz/gabrys/easybundle/BundleManager.html).
 
 # Examples
 Get example projects source code from [GitHub](https://github.com/gabrysbiz/EasyBundle-examples)

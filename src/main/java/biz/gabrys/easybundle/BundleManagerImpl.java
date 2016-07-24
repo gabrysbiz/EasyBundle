@@ -24,6 +24,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class BundleManagerImpl implements BundleManager {
 
+    private final Object mutex = new Object();
+
     private final BundleFactory factory;
     private final Map<Class<?>, Bundle> bundles;
     private final Set<BundleReloadListener> listeners;
@@ -70,17 +72,19 @@ public class BundleManagerImpl implements BundleManager {
      * @see #register(BundleReloadListener)
      */
     @Override
-    public synchronized void setLocale(final Locale locale) {
+    public void setLocale(final Locale locale) {
         if (locale == null) {
             throw new IllegalArgumentException("Locale cannot be null");
         }
 
-        for (final Bundle bundle : bundles.values()) {
-            bundle.setLocale(locale);
-        }
-        currentLocale = locale;
-        for (final BundleReloadListener listener : listeners) {
-            listener.onBundleReload();
+        synchronized (mutex) {
+            for (final Bundle bundle : bundles.values()) {
+                bundle.setLocale(locale);
+            }
+            currentLocale = locale;
+            for (final BundleReloadListener listener : listeners) {
+                listener.onBundleReload();
+            }
         }
     }
 
@@ -90,8 +94,10 @@ public class BundleManagerImpl implements BundleManager {
      * @see #setLocale(Locale)
      */
     @Override
-    public synchronized Locale getLocale() {
-        return currentLocale;
+    public Locale getLocale() {
+        synchronized (mutex) {
+            return currentLocale;
+        }
     }
 
     /**
@@ -102,18 +108,20 @@ public class BundleManagerImpl implements BundleManager {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public synchronized <E> E getBundle(final Class<E> interfaceClass) {
+    public <E> E getBundle(final Class<E> interfaceClass) {
         if (interfaceClass == null) {
             throw new IllegalArgumentException("Interface class cannot be null");
         }
 
-        if (bundles.containsKey(interfaceClass)) {
-            return (E) bundles.get(interfaceClass);
-        }
+        synchronized (mutex) {
+            if (bundles.containsKey(interfaceClass)) {
+                return (E) bundles.get(interfaceClass);
+            }
 
-        final Bundle bundle = factory.create(interfaceClass, currentLocale);
-        bundles.put(interfaceClass, bundle);
-        return (E) bundle;
+            final Bundle bundle = factory.create(interfaceClass, currentLocale);
+            bundles.put(interfaceClass, bundle);
+            return (E) bundle;
+        }
     }
 
     /**
@@ -122,12 +130,14 @@ public class BundleManagerImpl implements BundleManager {
      * @since 1.0
      */
     @Override
-    public synchronized void register(final BundleReloadListener listener) {
+    public void register(final BundleReloadListener listener) {
         if (listener == null) {
             throw new IllegalArgumentException("Listener cannot be null");
         }
 
-        listeners.add(listener);
+        synchronized (mutex) {
+            listeners.add(listener);
+        }
     }
 
     /**
@@ -135,8 +145,10 @@ public class BundleManagerImpl implements BundleManager {
      * @since 1.0
      */
     @Override
-    public synchronized void unregister(final BundleReloadListener listener) {
-        listeners.remove(listener);
+    public void unregister(final BundleReloadListener listener) {
+        synchronized (mutex) {
+            listeners.remove(listener);
+        }
     }
 
     /**
@@ -144,7 +156,9 @@ public class BundleManagerImpl implements BundleManager {
      * @since 1.0
      */
     @Override
-    public synchronized void unregisterAll() {
-        listeners.clear();
+    public void unregisterAll() {
+        synchronized (mutex) {
+            listeners.clear();
+        }
     }
 }
