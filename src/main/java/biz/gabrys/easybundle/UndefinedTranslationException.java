@@ -17,8 +17,9 @@ package biz.gabrys.easybundle;
  * @since 1.0
  * @see BundleManager
  */
-@SuppressWarnings("serial")
 public class UndefinedTranslationException extends BundleException {
+
+    private static final long serialVersionUID = -6776431187879498576L;
 
     /**
      * Constructs a new instance of {@link UndefinedTranslationException} with the specified detail message.

@@ -24,7 +24,7 @@
     </custom>
 
     <poweredBy>
-        <logo name="gabrys.biz on GitHub" href="https://github.com/" img="images/logos/github.png" />
+        <logo name="gabrys.biz on GitHub" href="https://github.com/gabrysbiz" img="images/logos/github.png" />
         <logo name="Built by Maven" img="images/logos/maven-feather.png" />
     </poweredBy>
 
@@ -32,6 +32,7 @@
         <menu name="Overview">
             <item name="Introduction" href="index.html" />
             <item name="Download" href="download.html" />
+            <item name="Changelog" href="changelog.html" />
         </menu>
 
         <menu ref="reports" />

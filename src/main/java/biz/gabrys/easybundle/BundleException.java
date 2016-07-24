@@ -16,8 +16,9 @@ package biz.gabrys.easybundle;
  * Parent class for all exceptions associated with bundles.
  * @since 1.0
  */
-@SuppressWarnings("serial")
 public class BundleException extends RuntimeException {
+
+    private static final long serialVersionUID = 7442025308696585863L;
 
     /**
      * Constructs a new instance of {@link BundleException} with the specified detail message.
