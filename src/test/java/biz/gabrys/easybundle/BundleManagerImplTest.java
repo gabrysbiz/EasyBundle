@@ -99,7 +99,7 @@ public final class BundleManagerImplTest {
     }
 
     @Test
-    public void getBundle_correctLocales_createOneBUndlePerClass() {
+    public void getBundle_correctLocales_createOneBundlePerClass() {
         final BundleFactory factory = Mockito.mock(BundleFactory.class);
         Mockito.when(factory.create(Bundle.class, Locale.ENGLISH)).thenReturn(Mockito.mock(Bundle.class));
 
