@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiplePropertyResourceBundleFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EasyBundle</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.easybundle</a> &gt; <span class="el_source">MultiplePropertyResourceBundleFactory.java</span></div><h1>MultiplePropertyResourceBundleFactory.java</h1><pre class="source lang-java linenums">/*
+ * EasyBundle
+ * http://easy-bundle.projects.gabrys.biz/
+ *
+ * Copyright (c) 2013 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.easybundle;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+import java.util.ResourceBundle.Control;
+
+/**
+ * &lt;p&gt;
+ * Standard implementation of {@link BundleFactory} which store translations in multiple properties files (one per
+ * bundle). The name of the property file must be the same as the interface's name (plus additional information about
+ * locale). Correct hierarchy of file names:
+ * &lt;/p&gt;
+ * &lt;ol&gt;
+ * &lt;li&gt;{@code interfaceName_language_country_variant.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code interfaceName_language_country.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code interfaceName_language.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code interfaceName.properties}&lt;/li&gt;
+ * &lt;/ol&gt;
+ * &lt;p&gt;
+ * Example: {@code Messages} is an interface.
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;{@code Messages_pl_PL_WINDOWS.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code Messages_pl_PL.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code Messages_pl.properties}&lt;/li&gt;
+ * &lt;li&gt;{@code Messages.properties}&lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * The property file name should be localized at the same package as the user specified interface.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Example: If full name for the user specified interface is equal {@code org.example.Message}, then the property file
+ * should be localized in the directory {@code example} which is subdirectory of {@code org}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * The content of the property file should have the following structure:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * #comment are available
+ * key1=value1
+ * key2=value2
+ * key3=value3
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Example:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * title=Bundle Factory 
+ * topic=How to create property file
+ * #comment
+ * copyrightInformation=Copyright@ 2013, All rights Reserved
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * How to use the factory:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * public interface Messages {
+ *  
+ *      String getTitle();
+ *      
+ *      String getTopic();
+ *      
+ *      String getCopyrightInformation();
+ * }
+ * 
+ * final {@link BundleFactory} factory = new {@link MultiplePropertyResourceBundleFactory}();
+ * final Messages bundle = (Messages) factory.{@link #create(Class, Locale) create}(Messages.class, {@link Locale}.{@link Locale#getDefault() getDefault()});
+ * System.out.println(bundle.getTitle());
+ * System.out.println(bundle.getTopic());
+ * System.out.println(bundle.getCopyrightInformation());
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * will return:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * Bundle Factory
+ * How to create property file
+ * Copyright@ 2013, All rights Reserved
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * The factory creates a hierarchy of bundles which allows the sharing of values. This functionality will be presented
+ * on the following example.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Example: An user defined two bundles {@code Messages.properties} and {@code Messages_pl.properties}. The files
+ * content is equal:
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;{@code Messages.properties}:
+ * 
+ * &lt;pre&gt;
+ * name=Name
+ * topic=default
+ * &lt;/pre&gt;
+ * 
+ * &lt;/li&gt;
+ * &lt;li&gt;{@code Messages_pl.properties}:
+ * 
+ * &lt;pre&gt;
+ * name=Nazwa
+ * #topic is undefined
+ * &lt;/pre&gt;
+ * 
+ * &lt;/li&gt;
+ * &lt;/ul&gt;
+ * &lt;p&gt;
+ * When the user will execute the following code:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * final {@link BundleFactory} factory = new {@link MultiplePropertyResourceBundleFactory}();
+ * Messages bundle = (Messages) factory.{@link #create(Class, Locale) create}(Messages.class, {@link Locale#ENGLISH});
+ * System.out.println(bundle.getName());
+ * System.out.println(bundle.getTopic());
+ * bundle = (Messages) factory.{@link #create(Class, Locale) create}(Messages.class, new {@link Locale}(&quot;pl&quot;));
+ * System.out.println(bundle.getName());
+ * System.out.println(bundle.getTopic());
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * He will get the following results:
+ * &lt;/p&gt;
+ * 
+ * &lt;pre&gt;
+ * Name
+ * default
+ * Nazwa
+ * default
+ * &lt;/pre&gt;
+ * 
+ * @since 1.0
+ * @see BundleValidator
+ * @see PropertyResourceBundleFactory
+ */
+<span class="fc" id="L154">public class MultiplePropertyResourceBundleFactory implements BundleFactory {</span>
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if the interface class is {@code null}.
+     * @throws IllegalArgumentException if the locale is {@code null}.
+     * @since 1.0
+     * @see BundleValidator#validateInterface(Class)
+     */
+    @Override
+    public Bundle create(final Class&lt;?&gt; interfaceClass, final Locale locale) {
+<span class="fc bfc" id="L165" title="All 2 branches covered.">        if (interfaceClass == null) {</span>
+<span class="fc" id="L166">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
+        }
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (locale == null) {</span>
+<span class="fc" id="L169">            throw new IllegalArgumentException(&quot;Locale cannot be null&quot;);</span>
+        }
+
+<span class="fc" id="L172">        return (Bundle) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class&lt;?&gt;[] { interfaceClass, Bundle.class },</span>
+                new MultiplePropertyResourceInvocationHandler(interfaceClass, locale));
+    }
+
+    private static final class MultiplePropertyResourceInvocationHandler implements InvocationHandler {
+
+        private final Class&lt;?&gt; interfaceClass;
+        private Locale locale;
+        private ResourceBundle bundle;
+
+<span class="fc" id="L182">        public MultiplePropertyResourceInvocationHandler(final Class&lt;?&gt; interfaceClass, final Locale locale) {</span>
+<span class="fc" id="L183">            this.interfaceClass = interfaceClass;</span>
+<span class="fc" id="L184">            this.locale = locale;</span>
+<span class="fc" id="L185">        }</span>
+
+        @Override
+        public synchronized Object invoke(final Object proxy, final Method method, final Object[] args) {
+<span class="fc bfc" id="L189" title="All 2 branches covered.">            if (BundleValidator.isMethodCorrect(method)) {</span>
+<span class="fc" id="L190">                return getValue(method.getName());</span>
+
+<span class="fc bfc" id="L192" title="All 2 branches covered.">            } else if (Bundle.CHANGE_LANGUAGE_METHOD_NAME.equals(method.getName())) {</span>
+<span class="fc" id="L193">                locale = (Locale) args[0];</span>
+<span class="fc" id="L194">                bundle = null;</span>
+<span class="fc" id="L195">                return null;</span>
+            }
+
+<span class="fc" id="L198">            throw new InvalidInterfaceException(&quot;Definition of the bundle interface \&quot;&quot; + interfaceClass.getName()</span>
+<span class="fc" id="L199">                    + &quot;\&quot; is invalid (unsupported method: \&quot;&quot; + method.getName() + &quot;\&quot;)&quot;);</span>
+        }
+
+        private String getValue(final String methodName) {
+<span class="fc" id="L203">            initBundle();</span>
+
+<span class="fc" id="L205">            String key = methodName.substring(BundleValidator.METHOD_NAME_PREFIX.length());</span>
+<span class="fc" id="L206">            key = key.substring(0, 1).toLowerCase(locale) + key.substring(1);</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">            if (bundle.containsKey(key)) {</span>
+<span class="fc" id="L208">                return bundle.getString(key);</span>
+            } else {
+<span class="fc" id="L210">                throw new UndefinedTranslationException(</span>
+                        &quot;Cannot find the message associated with the key \&quot;&quot; + key + &quot;\&quot; for locale \&quot;&quot; + locale + '&quot;');
+            }
+        }
+
+        private void initBundle() {
+<span class="fc bfc" id="L216" title="All 2 branches covered.">            if (bundle == null) {</span>
+                try {
+<span class="fc" id="L218">                    bundle = ResourceBundle.getBundle(interfaceClass.getName(), locale, interfaceClass.getClassLoader(),</span>
+<span class="fc" id="L219">                            Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));</span>
+<span class="nc" id="L220">                } catch (final MissingResourceException e) {</span>
+<span class="nc" id="L221">                    throw new ReloadBundleException(e);</span>
+<span class="fc" id="L222">                }</span>
+            }
+<span class="fc" id="L224">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
