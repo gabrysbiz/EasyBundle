@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+EasyBundle,biz.gabrys.easybundle,PropertyResourceBundleFactory.PropertyResourceInvocationHandler,192,0,10,0,33,0,9,0,4,0
+EasyBundle,biz.gabrys.easybundle,MultiplePropertyResourceBundleFactory,38,0,4,0,8,0,4,0,2,0
+EasyBundle,biz.gabrys.easybundle,BundleManagerImpl,208,0,16,0,43,0,16,0,8,0
+EasyBundle,biz.gabrys.easybundle,MultiplePropertyResourceBundleFactory.MultiplePropertyResourceInvocationHandler,147,0,8,0,28,0,8,0,4,0
+EasyBundle,biz.gabrys.easybundle,ReloadBundleException,13,0,0,0,6,0,3,0,3,0
+EasyBundle,biz.gabrys.easybundle,MultiplePropertyResourceBundleManagerStorage,13,0,0,0,4,0,3,0,3,0
+EasyBundle,biz.gabrys.easybundle,PropertyResourceBundleFactory,54,0,6,0,12,0,5,0,2,0
+EasyBundle,biz.gabrys.easybundle,InvalidInterfaceException,13,0,0,0,6,0,3,0,3,0
+EasyBundle,biz.gabrys.easybundle,UndefinedTranslationException,13,0,0,0,6,0,3,0,3,0
+EasyBundle,biz.gabrys.easybundle,BundleValidator,130,0,22,0,23,0,16,0,5,0
+EasyBundle,biz.gabrys.easybundle,BundleException,13,0,0,0,6,0,3,0,3,0

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BundleManagerImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EasyBundle</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.easybundle</a> &gt; <span class="el_source">BundleManagerImpl.java</span></div><h1>BundleManagerImpl.java</h1><pre class="source lang-java linenums">/*
+ * EasyBundle
+ * http://easy-bundle.projects.gabrys.biz/
+ *
+ * Copyright (c) 2013 Adam Gabryś
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.easybundle;
+
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * Default implementation of {@link BundleManager}.
+ * @since 1.0
+ */
+public class BundleManagerImpl implements BundleManager {
+
+<span class="nc" id="L27">    private final Object mutex = new Object();</span>
+
+    private final BundleFactory factory;
+    private final Map&lt;Class&lt;?&gt;, Bundle&gt; bundles;
+    private final Set&lt;BundleReloadListener&gt; listeners;
+    private Locale currentLocale;
+
+    /**
+     * Constructs a new instance of {@link BundleManagerImpl} and sets current locale with value of default locale for
+     * this instance of the Java Virtual Machine.
+     * @param factory bundle factory.
+     * @throws IllegalArgumentException if the factory is {@code null}.
+     * @since 1.0
+     */
+    public BundleManagerImpl(final BundleFactory factory) {
+<span class="nc" id="L42">        this(factory, Locale.getDefault());</span>
+<span class="nc" id="L43">    }</span>
+
+    /**
+     * Constructs a new instance of {@link BundleManagerImpl} and sets current locale.
+     * @param factory bundle factory.
+     * @param locale the current locale.
+     * @throws IllegalArgumentException if the factory is {@code null}.
+     * @throws IllegalArgumentException if the locale is {@code null}.
+     * @since 1.0
+     */
+<span class="nc" id="L53">    public BundleManagerImpl(final BundleFactory factory, final Locale locale) {</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">        if (factory == null) {</span>
+<span class="nc" id="L55">            throw new IllegalArgumentException(&quot;Factory cannot be null&quot;);</span>
+        }
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (locale == null) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(&quot;Locale cannot be null&quot;);</span>
+        }
+
+<span class="nc" id="L61">        bundles = new ConcurrentHashMap&lt;Class&lt;?&gt;, Bundle&gt;();</span>
+<span class="nc" id="L62">        listeners = new HashSet&lt;BundleReloadListener&gt;();</span>
+<span class="nc" id="L63">        this.factory = factory;</span>
+<span class="nc" id="L64">        currentLocale = locale;</span>
+<span class="nc" id="L65">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if the locale is {@code null}.
+     * @since 1.0
+     * @see #getLocale()
+     * @see #register(BundleReloadListener)
+     */
+    @Override
+    public void setLocale(final Locale locale) {
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (locale == null) {</span>
+<span class="nc" id="L77">            throw new IllegalArgumentException(&quot;Locale cannot be null&quot;);</span>
+        }
+
+<span class="nc" id="L80">        synchronized (mutex) {</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            for (final Bundle bundle : bundles.values()) {</span>
+<span class="nc" id="L82">                bundle.setLocale(locale);</span>
+            }
+<span class="nc" id="L84">            currentLocale = locale;</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            for (final BundleReloadListener listener : listeners) {</span>
+<span class="nc" id="L86">                listener.onBundleReload();</span>
+            }
+        }
+<span class="nc" id="L89">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * @since 1.0
+     * @see #setLocale(Locale)
+     */
+    @Override
+    public Locale getLocale() {
+<span class="nc" id="L98">        synchronized (mutex) {</span>
+<span class="nc" id="L99">            return currentLocale;</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if the interface class in {@code null}.
+     * @since 1.0
+     * @see BundleValidator#validateInterface(Class)
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public &lt;E&gt; E getBundle(final Class&lt;E&gt; interfaceClass) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (interfaceClass == null) {</span>
+<span class="nc" id="L113">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
+        }
+
+<span class="nc" id="L116">        synchronized (mutex) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (bundles.containsKey(interfaceClass)) {</span>
+<span class="nc" id="L118">                return (E) bundles.get(interfaceClass);</span>
+            }
+
+<span class="nc" id="L121">            final Bundle bundle = factory.create(interfaceClass, currentLocale);</span>
+<span class="nc" id="L122">            bundles.put(interfaceClass, bundle);</span>
+<span class="nc" id="L123">            return (E) bundle;</span>
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * @throws IllegalArgumentException if the listener is {@code null}.
+     * @since 1.0
+     */
+    @Override
+    public void register(final BundleReloadListener listener) {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (listener == null) {</span>
+<span class="nc" id="L135">            throw new IllegalArgumentException(&quot;Listener cannot be null&quot;);</span>
+        }
+
+<span class="nc" id="L138">        synchronized (mutex) {</span>
+<span class="nc" id="L139">            listeners.add(listener);</span>
+        }
+<span class="nc" id="L141">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * @since 1.0
+     */
+    @Override
+    public void unregister(final BundleReloadListener listener) {
+<span class="nc" id="L149">        synchronized (mutex) {</span>
+<span class="nc" id="L150">            listeners.remove(listener);</span>
+        }
+<span class="nc" id="L152">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * @since 1.0
+     */
+    @Override
+    public void unregisterAll() {
+<span class="nc" id="L160">        synchronized (mutex) {</span>
+<span class="nc" id="L161">            listeners.clear();</span>
+        }
+<span class="nc" id="L163">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
