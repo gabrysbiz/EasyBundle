@@ -57,34 +57,34 @@ public final class BundleValidator {
      * @since 1.0
      */
     public static void validateInterface(final Class&lt;?&gt; interfaceClass) {
-<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (interfaceClass == null) {</span>
-<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (interfaceClass == null) {</span>
+<span class="fc" id="L61">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
         }
 
-<span class="nc" id="L64">        validateType(interfaceClass);</span>
-<span class="nc" id="L65">        validateMethods(interfaceClass.getName(), interfaceClass.getMethods());</span>
-<span class="nc" id="L66">    }</span>
+<span class="fc" id="L64">        validateType(interfaceClass);</span>
+<span class="fc" id="L65">        validateMethods(interfaceClass.getName(), interfaceClass.getMethods());</span>
+<span class="fc" id="L66">    }</span>
 
     private static void validateType(final Class&lt;?&gt; interfaceClass) {
-<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (!interfaceClass.isInterface()) {</span>
-<span class="nc" id="L70">            throw new InvalidInterfaceException(String.format(&quot;Given class \&quot;%s\&quot; is not an interface&quot;, interfaceClass.getName()));</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        if (!interfaceClass.isInterface()) {</span>
+<span class="fc" id="L70">            throw new InvalidInterfaceException(String.format(&quot;Given class \&quot;%s\&quot; is not an interface&quot;, interfaceClass.getName()));</span>
         }
-<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (!Modifier.isPublic(interfaceClass.getModifiers())) {</span>
-<span class="nc" id="L73">            throw new InvalidInterfaceException(String.format(&quot;Given interface \&quot;%s\&quot; must be public&quot;, interfaceClass.getName()));</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (!Modifier.isPublic(interfaceClass.getModifiers())) {</span>
+<span class="fc" id="L73">            throw new InvalidInterfaceException(String.format(&quot;Given interface \&quot;%s\&quot; must be public&quot;, interfaceClass.getName()));</span>
         }
-<span class="nc" id="L75">    }</span>
+<span class="fc" id="L75">    }</span>
 
     private static void validateMethods(final String interfaceName, final Method[] methods) {
-<span class="nc bnc" id="L78" title="All 2 branches missed.">        if (methods.length == 0) {</span>
-<span class="nc" id="L79">            throw new InvalidInterfaceException(String.format(&quot;Given interface \&quot;%s\&quot; has not specify any methods&quot;, interfaceName));</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">        if (methods.length == 0) {</span>
+<span class="fc" id="L79">            throw new InvalidInterfaceException(String.format(&quot;Given interface \&quot;%s\&quot; has not specify any methods&quot;, interfaceName));</span>
         }
-<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (final Method method : methods) {</span>
-<span class="nc bnc" id="L82" title="All 2 branches missed.">            if (!isMethodCorrect(method)) {</span>
-<span class="nc" id="L83">                throw new InvalidInterfaceException(String.format(</span>
-<span class="nc" id="L84">                        &quot;Given interface \&quot;%s\&quot; must contain only public getters method that return simple string value&quot;, interfaceName));</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (final Method method : methods) {</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">            if (!isMethodCorrect(method)) {</span>
+<span class="fc" id="L83">                throw new InvalidInterfaceException(String.format(</span>
+                        &quot;Given interface \&quot;%s\&quot; must contain only public getters method that return simple string value&quot;, interfaceName));
             }
         }
-<span class="nc" id="L87">    }</span>
+<span class="fc" id="L87">    }</span>
 
     /**
      * Checks whether a method declaration is allowed in the correct interface.
@@ -94,12 +94,12 @@ public final class BundleValidator {
      * @since 1.0
      */
     public static boolean isMethodCorrect(final Method method) {
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (method == null) {</span>
-<span class="nc" id="L98">            throw new IllegalArgumentException(&quot;Method cannot be null&quot;);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (method == null) {</span>
+<span class="fc" id="L98">            throw new IllegalArgumentException(&quot;Method cannot be null&quot;);</span>
         }
 
-<span class="nc bnc" id="L101" title="All 4 branches missed.">        return method.getName().startsWith(METHOD_NAME_PREFIX) &amp;&amp; method.getName().length() &gt; METHOD_NAME_PREFIX.length()</span>
-<span class="nc bnc" id="L102" title="All 4 branches missed.">                &amp;&amp; String.class.equals(method.getReturnType()) &amp;&amp; method.getParameterTypes().length == 0;</span>
+<span class="fc bfc" id="L101" title="All 4 branches covered.">        return method.getName().startsWith(METHOD_NAME_PREFIX) &amp;&amp; method.getName().length() &gt; METHOD_NAME_PREFIX.length()</span>
+<span class="fc bfc" id="L102" title="All 4 branches covered.">                &amp;&amp; String.class.equals(method.getReturnType()) &amp;&amp; method.getParameterTypes().length == 0;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

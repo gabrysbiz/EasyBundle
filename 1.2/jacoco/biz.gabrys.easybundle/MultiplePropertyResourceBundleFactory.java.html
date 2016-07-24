@@ -157,9 +157,9 @@ public class MultiplePropertyResourceBundleFactory implements BundleFactory {
      * Constructs a new instance.
      * @since 1.0
      */
-<span class="nc" id="L160">    public MultiplePropertyResourceBundleFactory() {</span>
+<span class="fc" id="L160">    public MultiplePropertyResourceBundleFactory() {</span>
         // do nothing
-<span class="nc" id="L162">    }</span>
+<span class="fc" id="L162">    }</span>
 
     /**
      * {@inheritDoc}
@@ -170,71 +170,71 @@ public class MultiplePropertyResourceBundleFactory implements BundleFactory {
      */
     @Override
     public Bundle create(final Class&lt;?&gt; interfaceClass, final Locale locale) {
-<span class="nc bnc" id="L173" title="All 2 branches missed.">        if (interfaceClass == null) {</span>
-<span class="nc" id="L174">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">        if (interfaceClass == null) {</span>
+<span class="fc" id="L174">            throw new IllegalArgumentException(&quot;Interface class cannot be null&quot;);</span>
         }
-<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (locale == null) {</span>
-<span class="nc" id="L177">            throw new IllegalArgumentException(&quot;Locale cannot be null&quot;);</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        if (locale == null) {</span>
+<span class="fc" id="L177">            throw new IllegalArgumentException(&quot;Locale cannot be null&quot;);</span>
         }
 
-<span class="nc" id="L180">        return (Bundle) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class&lt;?&gt;[] { interfaceClass, Bundle.class },</span>
-<span class="nc" id="L181">                new MultiplePropertyResourceInvocationHandler(interfaceClass, locale));</span>
+<span class="fc" id="L180">        return (Bundle) Proxy.newProxyInstance(interfaceClass.getClassLoader(), new Class&lt;?&gt;[] { interfaceClass, Bundle.class },</span>
+                new MultiplePropertyResourceInvocationHandler(interfaceClass, locale));
     }
 
     private static final class MultiplePropertyResourceInvocationHandler implements InvocationHandler {
 
-<span class="nc" id="L186">        private final Object mutex = new Object();</span>
+<span class="fc" id="L186">        private final Object mutex = new Object();</span>
 
         private final Class&lt;?&gt; interfaceClass;
         private Locale locale;
         private ResourceBundle bundle;
 
-<span class="nc" id="L192">        private MultiplePropertyResourceInvocationHandler(final Class&lt;?&gt; interfaceClass, final Locale locale) {</span>
-<span class="nc" id="L193">            this.interfaceClass = interfaceClass;</span>
-<span class="nc" id="L194">            this.locale = locale;</span>
-<span class="nc" id="L195">        }</span>
+<span class="fc" id="L192">        private MultiplePropertyResourceInvocationHandler(final Class&lt;?&gt; interfaceClass, final Locale locale) {</span>
+<span class="fc" id="L193">            this.interfaceClass = interfaceClass;</span>
+<span class="fc" id="L194">            this.locale = locale;</span>
+<span class="fc" id="L195">        }</span>
 
         @Override
         public Object invoke(final Object proxy, final Method method, final Object[] args) {
-<span class="nc" id="L199">            synchronized (mutex) {</span>
-<span class="nc bnc" id="L200" title="All 2 branches missed.">                if (BundleValidator.isMethodCorrect(method)) {</span>
-<span class="nc" id="L201">                    return getValue(method.getName());</span>
+<span class="fc" id="L199">            synchronized (mutex) {</span>
+<span class="fc bfc" id="L200" title="All 2 branches covered.">                if (BundleValidator.isMethodCorrect(method)) {</span>
+<span class="fc" id="L201">                    return getValue(method.getName());</span>
 
-<span class="nc bnc" id="L203" title="All 2 branches missed.">                } else if (Bundle.CHANGE_LANGUAGE_METHOD_NAME.equals(method.getName())) {</span>
-<span class="nc" id="L204">                    locale = (Locale) args[0];</span>
-<span class="nc" id="L205">                    bundle = null;</span>
-<span class="nc" id="L206">                    return null;</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">                } else if (Bundle.CHANGE_LANGUAGE_METHOD_NAME.equals(method.getName())) {</span>
+<span class="fc" id="L204">                    locale = (Locale) args[0];</span>
+<span class="fc" id="L205">                    bundle = null;</span>
+<span class="fc" id="L206">                    return null;</span>
                 }
-            }
+<span class="fc" id="L208">            }</span>
 
-<span class="nc" id="L210">            throw new InvalidInterfaceException(</span>
-<span class="nc" id="L211">                    String.format(&quot;Definition of the bundle interface \&quot;%s\&quot; is invalid (unsupported method: \&quot;%s\&quot;)&quot;,</span>
-<span class="nc" id="L212">                            interfaceClass.getName(), method.getName()));</span>
+<span class="fc" id="L210">            throw new InvalidInterfaceException(</span>
+<span class="fc" id="L211">                    String.format(&quot;Definition of the bundle interface \&quot;%s\&quot; is invalid (unsupported method: \&quot;%s\&quot;)&quot;,</span>
+<span class="fc" id="L212">                            interfaceClass.getName(), method.getName()));</span>
         }
 
         private String getValue(final String methodName) {
-<span class="nc" id="L216">            initBundle();</span>
+<span class="fc" id="L216">            initBundle();</span>
 
-<span class="nc" id="L218">            String key = methodName.substring(BundleValidator.METHOD_NAME_PREFIX.length());</span>
-<span class="nc" id="L219">            key = key.substring(0, 1).toLowerCase(locale) + key.substring(1);</span>
-<span class="nc bnc" id="L220" title="All 2 branches missed.">            if (bundle.containsKey(key)) {</span>
-<span class="nc" id="L221">                return bundle.getString(key);</span>
+<span class="fc" id="L218">            String key = methodName.substring(BundleValidator.METHOD_NAME_PREFIX.length());</span>
+<span class="fc" id="L219">            key = key.substring(0, 1).toLowerCase(locale) + key.substring(1);</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">            if (bundle.containsKey(key)) {</span>
+<span class="fc" id="L221">                return bundle.getString(key);</span>
             } else {
-<span class="nc" id="L223">                throw new UndefinedTranslationException(</span>
-<span class="nc" id="L224">                        String.format(&quot;Cannot find the message associated with the key \&quot;%s\&quot; for locale \&quot;%s\&quot;&quot;, key, locale));</span>
+<span class="fc" id="L223">                throw new UndefinedTranslationException(</span>
+<span class="fc" id="L224">                        String.format(&quot;Cannot find the message associated with the key \&quot;%s\&quot; for locale \&quot;%s\&quot;&quot;, key, locale));</span>
             }
         }
 
         private void initBundle() {
-<span class="nc bnc" id="L229" title="All 2 branches missed.">            if (bundle == null) {</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">            if (bundle == null) {</span>
                 try {
-<span class="nc" id="L231">                    bundle = ResourceBundle.getBundle(interfaceClass.getName(), locale, interfaceClass.getClassLoader(),</span>
-<span class="nc" id="L232">                            Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));</span>
+<span class="fc" id="L231">                    bundle = ResourceBundle.getBundle(interfaceClass.getName(), locale, interfaceClass.getClassLoader(),</span>
+<span class="fc" id="L232">                            Control.getNoFallbackControl(Control.FORMAT_PROPERTIES));</span>
 <span class="nc" id="L233">                } catch (final MissingResourceException e) {</span>
 <span class="nc" id="L234">                    throw new ReloadBundleException(e);</span>
-                }
+<span class="fc" id="L235">                }</span>
             }
-<span class="nc" id="L237">        }</span>
+<span class="fc" id="L237">        }</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
