@@ -7,13 +7,21 @@
     </properties>
 
     <body>
-        <section name="Release 1.1">
+        <section id="release-1.2" name="Release 1.2">
+            <p>Bugs:</p>
+            <ul>
+                <li>Corrected <a href="https://en.wikipedia.org/wiki/Double-checked_locking">double-checked locking</a></li>
+                <li>Synchronization optimization</li>
+            </ul>
+        </section>
+        <section id="release-1.1" name="Release 1.1">
             <p>Features:</p>
             <ul>
                 <li>Added serialVersionUID in Exception classes</li>
             </ul>
+            <p><a href="http://easy-bundle.projects.gabrys.biz/1.1/">See documentation</a></p>
         </section>
-        <section name="Release 1.0">
+        <section id="release-1.0" name="Release 1.0">
             <p>Initial release.</p>
             <p><a href="http://easy-bundle.projects.gabrys.biz/1.0/">See documentation</a></p>
         </section>
