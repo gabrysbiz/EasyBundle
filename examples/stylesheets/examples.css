@@ -1,20 +1,20 @@
 /* image */
 th:nth-child(1) {
-	width: 18px;
-	white-space: nowrap;
+    width: 18px;
+    white-space: nowrap;
 }
 /* date */
 th:nth-child(3) {
-	width: 100px;
-	white-space: nowrap;
+    width: 100px;
+    white-space: nowrap;
 }
 td:nth-child(3) {
-	white-space: nowrap;
+    white-space: nowrap;
 }
 /* size */
 th:nth-child(4) {
-	width: 80px;
+    width: 80px;
 }
 td:nth-child(4) {
-	text-align: right;
+    text-align: right;
 }
