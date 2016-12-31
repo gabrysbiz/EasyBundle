@@ -2,7 +2,7 @@ properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', 
 
 node {
     timestamps {
-        stage('Cleanup') {
+        stage('PreCleanup') {
            step($class: 'WsCleanup')
         }
         stage('Checkout') {
@@ -14,13 +14,16 @@ node {
                 sh 'mvn -e clean install site -DskipTest'
             }
             stage('Test') {
-                sh 'mvn test'
+                sh 'mvn -e test'
                 junit '**/target/*/TEST-*.xml'
             }
         }
 
         stage('Archive') {
             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+        }
+        stage('PostCleanup') {
+           step($class: 'WsCleanup')
         }
     }
 }
