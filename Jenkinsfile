@@ -11,7 +11,7 @@ node {
 
         withMaven(maven: 'MVN-3', jdk: 'JDK-8', mavenLocalRepo: '.repository') {
             stage('Build') {
-                sh 'mvn -e clean install site -DskipTest'
+                sh 'mvn -e install site -DskipTests'
             }
             stage('Test') {
                 sh 'mvn -e test'
