@@ -1,4 +1,13 @@
-properties([[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactDaysToKeepStr: '-1', artifactNumToKeepStr: '10', daysToKeepStr: '-1', numToKeepStr: '10']]])
+properties([[
+    $class: 'BuildDiscarderProperty',
+    strategy: [
+        $class: 'LogRotator',
+        artifactDaysToKeepStr: '-1',
+        artifactNumToKeepStr: '10',
+        daysToKeepStr: '-1',
+        numToKeepStr: '10'
+    ]
+]])
 
 node {
     timestamps {
