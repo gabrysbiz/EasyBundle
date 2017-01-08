@@ -11,7 +11,7 @@ properties([[
 
 node {
     timestamps {
-        stage('PreCleanup') {
+        stage('Pre Build Cleanup') {
            step($class: 'WsCleanup')
         }
         stage('Checkout') {
@@ -24,14 +24,14 @@ node {
             }
             stage('Test') {
                 sh 'mvn -e test'
-                junit '**/target/*/TEST-*.xml'
+                junit 'target/surefire-reports/TEST-*.xml'
             }
         }
 
         stage('Archive') {
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
-        stage('PostCleanup') {
+        stage('Post Build Cleanup') {
            step($class: 'WsCleanup')
         }
     }
