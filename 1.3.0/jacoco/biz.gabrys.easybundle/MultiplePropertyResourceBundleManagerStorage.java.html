@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MultiplePropertyResourceBundleManagerStorage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EasyBundle</a> &gt; <a href="index.source.html" class="el_package">biz.gabrys.easybundle</a> &gt; <span class="el_source">MultiplePropertyResourceBundleManagerStorage.java</span></div><h1>MultiplePropertyResourceBundleManagerStorage.java</h1><pre class="source lang-java linenums">/*
+ * EasyBundle
+ * http://easy-bundle.projects.gabrys.biz/
+ *
+ * Copyright (c) 2013 Adam Gabrys
+ *
+ * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
+ * You may not use this file except in compliance with the License.
+ * You may obtain:
+ * - a copy of the License at project page
+ * - a template of the License at https://opensource.org/licenses/BSD-3-Clause
+ */
+package biz.gabrys.easybundle;
+
+/**
+ * Stores single instance of {@link BundleManager} which gets messages from property file. Programmer can use this
+ * class, if there is no need for use more advanced technology (such as
+ * &lt;a href=&quot;http://en.wikipedia.org/wiki/Dependency_injection&quot;&gt;dependency injection&lt;/a&gt;).
+ * @since 1.0
+ * @see MultiplePropertyResourceBundleFactory
+ */
+public final class MultiplePropertyResourceBundleManagerStorage {
+
+<span class="nc" id="L24">    private static final BundleManager INSTANCE = new BundleManagerImpl(new MultiplePropertyResourceBundleFactory());</span>
+
+    private MultiplePropertyResourceBundleManagerStorage() {
+        // blocks the possibility of create a new instance
+    }
+
+    /**
+     * Returns always the same instance of {@link BundleManager}.
+     * @return instance of {@link BundleManager}.
+     * @since 1.0
+     */
+    public static BundleManager getManager() {
+<span class="nc" id="L36">        return INSTANCE;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
