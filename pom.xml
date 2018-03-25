@@ -5,10 +5,10 @@
 
     <groupId>biz.gabrys</groupId>
     <artifactId>easy-bundle</artifactId>
-    <version>1.2</version>
+    <version>1.3.0</version>
     <name>EasyBundle</name>
     <description>A simple library which supports internationalization. The library is dedicated for desktop applications.</description>
-    <url>http://easy-bundle.projects.gabrys.biz/1.2/</url>
+    <url>http://easy-bundle.projects.gabrys.biz/1.3.0/</url>
 
     <inceptionYear>2013</inceptionYear>
     <organization>
@@ -81,15 +81,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert-core</artifactId>
-            <version>2.0M10</version>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <!-- latest compatible with JDK 1.6 -->
+            <version>1.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.10.19</version>
+            <version>2.16.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -103,11 +104,11 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.6.1</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.3</version>
+                    <version>3.7.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
@@ -123,11 +124,11 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>3.0.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.3</version>
+                    <version>3.0.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jxr-plugin</artifactId>
@@ -135,32 +136,32 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>2.8</version>
+                    <version>2.9</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.7</version>
+                    <version>3.0.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
-                    <version>3.4</version>
+                    <version>3.7</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>3.0.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.18.1</version>
+                    <version>2.21.0</version>
                 </plugin>
                 <plugin>
                     <groupId>com.mycila</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>2.11</version>
+                    <version>3.0</version>
                     <configuration>
                         <header>header-license-template.txt</header>
                         <properties>
-                            <owner>Adam Gabryś</owner>
+                            <owner>Adam Gabrys</owner>
                         </properties>
                         <includes>
                             <include>src/main/java/**</include>
@@ -171,9 +172,17 @@
                     </configuration>
                 </plugin>
                 <plugin>
+                    <groupId>org.eluder.coveralls</groupId>
+                    <artifactId>coveralls-maven-plugin</artifactId>
+                    <version>4.3.0</version>
+                    <configuration>
+                        <repoToken>${env.coveralls_repo_token}</repoToken>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.7.201606060606</version>
+                    <version>0.8.1</version>
                     <configuration>
                         <rules>
                             <rule>
@@ -188,6 +197,16 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src/site/resources/files</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -248,13 +267,13 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>site</phase>
+                        <phase>pre-site</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <target>
-                                <copy todir="${project.build.directory}/site/files">
+                                <copy todir="src/site/resources/files">
                                     <fileset dir="${project.build.directory}">
                                         <include name="${project.artifactId}-${project.version}.jar" />
                                         <include name="${project.artifactId}-${project.version}-javadoc.jar" />

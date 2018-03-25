@@ -1,5 +1,11 @@
 # EasyBundle Changelog
 
+## 1.3.0
+Features:
+* Added support of building on JDK9
+
+[See documentation](http://easy-bundle.projects.gabrys.biz/1.3.0/)
+
 ## 1.2
 Bugs:
 * Corrected [double-checked locking](https://en.wikipedia.org/wiki/Double-checked_locking)

@@ -24,6 +24,21 @@
             Start reading from <a href="apidocs/index.html?biz/gabrys/easybundle/BundleManager.html">BundleManager</a>.
          </p>
       </section>
+      <section name="Requirements">
+          <p>
+              The library to run requires:
+          </p>
+          <ul>
+              <li>Java 6.0 or higher</li>
+              <li>Third-Party Dependencies (<a href="dependencies.html">see list</a>)</li>
+          </ul>
+      </section>
+      <section name="Download">
+          <p>
+              You can download the library from <a href="download.html">this page</a> or using various
+              <a href="dependency-info.html">dependency management tools</a>.
+          </p>
+      </section>
       <section name="Examples">
          <p>
             Get example projects source code from <a href="https://github.com/gabrysbiz/${project.name}-examples">GitHub</a>

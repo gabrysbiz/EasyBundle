@@ -1,8 +1,9 @@
 package biz.gabrys.easybundle;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Locale;
 
-import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 public abstract class AbstractBundleFactoryTest {
@@ -19,7 +20,7 @@ public abstract class AbstractBundleFactoryTest {
     @Test
     public final void create_correctInterfaceAndLocale_bundleReturnsCorrectValue() {
         final CorrectBundleInterface bundle = (CorrectBundleInterface) createFactory().create(CorrectBundleInterface.class, Locale.ENGLISH);
-        Assertions.assertThat(bundle.getName()).isEqualTo(NAME_ENG);
+        assertThat(bundle.getName()).isEqualTo(NAME_ENG);
     }
 
     @Test
@@ -28,35 +29,35 @@ public abstract class AbstractBundleFactoryTest {
         final CorrectBundleInterface bundleMessages = (CorrectBundleInterface) bundle;
 
         bundle.setLocale(POLISH_LOCALE);
-        Assertions.assertThat(bundleMessages.getName()).isEqualTo(NAME_PL);
+        assertThat(bundleMessages.getName()).isEqualTo(NAME_PL);
     }
 
     @Test
     public final void checkValueInheritance_englishLocale_bundleReturnsCorrectValue() {
         final Bundle bundle = createFactory().create(CorrectBundleInterface.class, Locale.ENGLISH);
-        Assertions.assertThat(((CorrectBundleInterface) bundle).getDefault()).isEqualTo(DEFAULT);
+        assertThat(((CorrectBundleInterface) bundle).getDefault()).isEqualTo(DEFAULT);
     }
 
     @Test
     public final void checkValueInheritance_changeLocaleFromEnglishToPolish_bundleReturnsValueFromParent() {
         final Bundle bundle = createFactory().create(CorrectBundleInterface.class, Locale.ENGLISH);
         bundle.setLocale(POLISH_LOCALE);
-        Assertions.assertThat(((CorrectBundleInterface) bundle).getDefault()).isEqualTo(DEFAULT);
+        assertThat(((CorrectBundleInterface) bundle).getDefault()).isEqualTo(DEFAULT);
     }
 
     @Test
     public final void getValue_bundleAndLocaleAreConstant_alwaysReturnsTheSameValue() {
         final CorrectBundleInterface bundle = (CorrectBundleInterface) createFactory().create(CorrectBundleInterface.class, Locale.ENGLISH);
 
-        Assertions.assertThat(bundle.getName()).isEqualTo(NAME_ENG);
-        Assertions.assertThat(bundle.getName()).isEqualTo(NAME_ENG);
-        Assertions.assertThat(bundle.getName()).isEqualTo(NAME_ENG);
+        assertThat(bundle.getName()).isEqualTo(NAME_ENG);
+        assertThat(bundle.getName()).isEqualTo(NAME_ENG);
+        assertThat(bundle.getName()).isEqualTo(NAME_ENG);
     }
 
     @Test
     public final void useShortKey_correctInterfaceAndLocale_correctValue() {
         final Bundle bundle = createFactory().create(CorrectBundleInterface.class, Locale.ENGLISH);
-        Assertions.assertThat(((CorrectBundleInterface) bundle).getA()).isEqualTo(A);
+        assertThat(((CorrectBundleInterface) bundle).getA()).isEqualTo(A);
     }
 
     @Test
@@ -64,8 +65,8 @@ public abstract class AbstractBundleFactoryTest {
         final BundleFactory factory = createFactory();
         final CorrectBundleInterface englishBundle = (CorrectBundleInterface) factory.create(CorrectBundleInterface.class, Locale.ENGLISH);
         final CorrectBundleInterface polishBundle = (CorrectBundleInterface) factory.create(CorrectBundleInterface.class, POLISH_LOCALE);
-        Assertions.assertThat(englishBundle.getName()).isEqualTo(NAME_ENG);
-        Assertions.assertThat(polishBundle.getName()).isEqualTo(NAME_PL);
+        assertThat(englishBundle.getName()).isEqualTo(NAME_ENG);
+        assertThat(polishBundle.getName()).isEqualTo(NAME_PL);
     }
 
     @Test
@@ -75,8 +76,8 @@ public abstract class AbstractBundleFactoryTest {
         final CorrectBundleInterface bundle2 = (CorrectBundleInterface) factory.create(CorrectBundleInterface.class, Locale.ENGLISH);
 
         ((Bundle) bundle2).setLocale(POLISH_LOCALE);
-        Assertions.assertThat(bundle1.getName()).isEqualTo(NAME_ENG);
-        Assertions.assertThat(bundle2.getName()).isEqualTo(NAME_PL);
+        assertThat(bundle1.getName()).isEqualTo(NAME_ENG);
+        assertThat(bundle2.getName()).isEqualTo(NAME_PL);
     }
 
     @Test(expected = UndefinedTranslationException.class)

@@ -1,9 +1,10 @@
 package biz.gabrys.easybundle;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.File;
 import java.util.Locale;
 
-import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
 public final class PropertyResourceBundleFactoryTest extends AbstractBundleFactoryTest {
@@ -42,9 +43,8 @@ public final class PropertyResourceBundleFactoryTest extends AbstractBundleFacto
 
     @Test
     public void filesWithTranslationsCannotExist() {
-        Assertions.assertThat(new File(NOT_EXIST_FILE_NAME_PREFIX + '_' + LOCALE_FOR_NOT_EXIST_FILE + NOT_EXIST_FILE_NAME_SUFFIX).exists())
-                .isEqualTo(false);
-        Assertions.assertThat(new File(NOT_EXIST_FILE_NAME_PREFIX).exists()).isEqualTo(false);
+        assertThat(new File(NOT_EXIST_FILE_NAME_PREFIX + '_' + LOCALE_FOR_NOT_EXIST_FILE + NOT_EXIST_FILE_NAME_SUFFIX).exists()).isFalse();
+        assertThat(new File(NOT_EXIST_FILE_NAME_PREFIX).exists()).isFalse();
     }
 
     @Test(expected = ReloadBundleException.class)
