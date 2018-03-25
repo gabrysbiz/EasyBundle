@@ -2,7 +2,7 @@
  * EasyBundle
  * http://easy-bundle.projects.gabrys.biz/
  *
- * Copyright (c) 2013 Adam Gabryś
+ * Copyright (c) 2013 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the &quot;License&quot;).
  * You may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@ public class BundleManagerImpl implements BundleManager {
 <span class="fc bfc" id="L85" title="All 2 branches covered.">            for (final BundleReloadListener listener : listeners) {</span>
 <span class="fc" id="L86">                listener.onBundleReload();</span>
 <span class="fc" id="L87">            }</span>
-<span class="pc" id="L88">        }</span>
+<span class="fc" id="L88">        }</span>
 <span class="fc" id="L89">    }</span>
 
     /**
@@ -97,7 +97,7 @@ public class BundleManagerImpl implements BundleManager {
     public Locale getLocale() {
 <span class="nc" id="L98">        synchronized (mutex) {</span>
 <span class="nc" id="L99">            return currentLocale;</span>
-<span class="nc" id="L100">        }</span>
+        }
     }
 
     /**
@@ -121,7 +121,7 @@ public class BundleManagerImpl implements BundleManager {
 <span class="fc" id="L121">            final Bundle bundle = factory.create(interfaceClass, currentLocale);</span>
 <span class="fc" id="L122">            bundles.put(interfaceClass, bundle);</span>
 <span class="fc" id="L123">            return (E) bundle;</span>
-<span class="nc" id="L124">        }</span>
+        }
     }
 
     /**
@@ -137,7 +137,7 @@ public class BundleManagerImpl implements BundleManager {
 
 <span class="fc" id="L138">        synchronized (mutex) {</span>
 <span class="fc" id="L139">            listeners.add(listener);</span>
-<span class="pc" id="L140">        }</span>
+<span class="fc" id="L140">        }</span>
 <span class="fc" id="L141">    }</span>
 
     /**
@@ -148,7 +148,7 @@ public class BundleManagerImpl implements BundleManager {
     public void unregister(final BundleReloadListener listener) {
 <span class="fc" id="L149">        synchronized (mutex) {</span>
 <span class="fc" id="L150">            listeners.remove(listener);</span>
-<span class="pc" id="L151">        }</span>
+<span class="fc" id="L151">        }</span>
 <span class="fc" id="L152">    }</span>
 
     /**
@@ -162,4 +162,4 @@ public class BundleManagerImpl implements BundleManager {
 <span class="nc" id="L162">        }</span>
 <span class="nc" id="L163">    }</span>
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
