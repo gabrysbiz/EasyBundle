@@ -2,7 +2,7 @@
  * EasyBundle
  * http://easy-bundle.projects.gabrys.biz/
  *
- * Copyright (c) 2013 Adam Gabryś
+ * Copyright (c) 2013 Adam Gabrys
  *
  * This file is licensed under the BSD 3-Clause (the "License").
  * You may not use this file except in compliance with the License.

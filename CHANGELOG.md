@@ -2,7 +2,9 @@
 
 ## 1.3.0
 Features:
-* Added [Coveralls](https://coveralls.io/github/gabrysbiz/EasyBundle) to build process
+* Added support of building on JDK9
+
+[See documentation](http://easy-bundle.projects.gabrys.biz/1.3.0/)
 
 ## 1.2
 Bugs:
